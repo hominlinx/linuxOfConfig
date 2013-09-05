@@ -9,3 +9,13 @@ my config on linux(such as vim /tmux etc)
 
 1. [vim](https://github.com/hominlinx/vim)
 2.  tmux
+
+####QA
+
+1. tmux中vim的colorscheme显示不对。解决方法：
+	> 执行tmux时键入-2.可以在ubuntu的~/.bashrc中添加：
+	```
+		alias tmux='tmux -2'
+	```
+
+		

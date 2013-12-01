@@ -18,4 +18,4 @@ my config on linux(such as vim /tmux etc)
 		alias tmux='tmux -2'
 	```
 
-		
+

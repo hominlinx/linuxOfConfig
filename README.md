@@ -1,12 +1,12 @@
 linuxOfConfig
 =============
 
-my config on linux(such as vim /tmux etc)
+####my config on linux(such as vim /tmux etc)
 
 ####由于使用多个unbuntu系统（公司虚拟机/自己本子/落云），所以建立了这个仓库。
 ####该仓库包含了各种配置文件，并且继续加入
 
-##首先配置github
+######首先配置github
 
 *安装git:*
 
@@ -31,10 +31,10 @@ ssh-keygen -t rsa -C "monkeyyuan635@gmail.com" -f ~/.ssh/github.com_rsa
 
 --------------
 
-现在有以下几个配置文件：
+######配置文件可以一键部署，现在包含一下几个子模块
 
-1. [vim](https://github.com/hominlinx/vim)
-2.  tmux
+> 1. [vim](https://github.com/hominlinx/vim)
+> 2.  tmux
 
 ####QA
 

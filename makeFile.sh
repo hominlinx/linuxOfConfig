@@ -1,6 +1,27 @@
 #!/bin/bash
 cd .
 
+#更新子模块到最新版本
+git submodule init
+git submodule update
+git submodule -q foreach git pull -q origin master
+
+#安装各种工具
+
+#-----------------
+#---编程类软件
+#-----------------
+
+#-----------------
+#---顺手工具
+#-----------------
+sudo apt-get install tmux
+
+
+#-----------------
+#---配置
+#-----------------
+
 BIN=$HOME/bin
 CF_DIR=`pwd`
 
@@ -8,9 +29,11 @@ if [ ! -d $BIN ]; then
     mkdir $BIN
 fi
 
+#for vim 自动配置
+sh -x $CF_DIR/vim/install.sh
+
 #for tmux
-echo "Installing tmuxen to $bin"
-ln -sf $CF_DIR/config/tmuxen $BIN/tmuxen
+echo "Installing tmux  colors to $BIN"
 ln -s $CF_DIR/config/.tmuxcolors.conf ~/.tmuxcolors.conf
 
 echo "Symlinking .tmux.conf to $HOME/.tmux.conf"

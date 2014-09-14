@@ -1,0 +1,8 @@
+"---------vimperator file
+"About: vimperator of firefox
+"Author:hominlinx
+
+noremap j 4j
+noremap k 4k
+noremap h gT
+noremap l gt

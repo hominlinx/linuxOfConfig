@@ -40,3 +40,8 @@ echo "Symlinking .tmux.conf to $HOME/.tmux.conf"
 ln -s $CF_DIR/tmux/tmux.conf ~/.tmux.conf
 echo "alias tmux='tmux -2'" >> ~/.bashrc
 #source .bash_profile
+
+#for vimperator
+echo "Symlinking vimperator to $HOME/.vimperatorrc"
+ln -s $CF_DIR/vimperatorrc ~/.vimperatorrc
+

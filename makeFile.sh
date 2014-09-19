@@ -45,3 +45,7 @@ echo "alias tmux='tmux -2'" >> ~/.bashrc
 echo "Symlinking vimperator to $HOME/.vimperatorrc"
 ln -s $CF_DIR/vimperatorrc ~/.vimperatorrc
 
+#for i3-wm
+echo "Symlinking i3/config to $HOME/.i3/config"
+ln -s $CF_DIR/i3wm/i3wm-config ~/.i3/config
+

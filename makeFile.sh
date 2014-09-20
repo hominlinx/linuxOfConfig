@@ -46,6 +46,11 @@ echo "Symlinking vimperator to $HOME/.vimperatorrc"
 ln -s $CF_DIR/vimperatorrc ~/.vimperatorrc
 
 #for i3-wm
+I3WM=$HOME/.i3
+if [ ! -d  $I3WM ]; then
+    mkdir $I3WM
+fi
 echo "Symlinking i3/config to $HOME/.i3/config"
 ln -s $CF_DIR/i3wm/i3wm-config ~/.i3/config
+ln -s $CF_DIR/i3wm/i3status.conf ~/.i3status.conf
 

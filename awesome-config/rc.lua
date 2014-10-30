@@ -3,6 +3,7 @@
 require("awful")
 require("awful.autofocus")
 require("awful.rules")
+local wibox = require("wibox")
 -- Theme handling library
 require("beautiful")
 -- Notification library
@@ -12,7 +13,6 @@ require("naughty")
 require("debian.menu")
 
 --widget and layout library
-local wibox = require("wibox")
 local vicious = require("vicious")
 
 -- {{{ Error handling
@@ -123,20 +123,59 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 ---{{{ Widgets
 
 -- Initialize widget
-local memwidget = awful.widget.progressbar()
--- Progressbar properties
-memwidget:set_width(8)
-memwidget:set_height(10)
-memwidget:set_vertical(true)
-memwidget:set_background_color("#494B4F")
-memwidget:set_border_color(nil)
-memwidget:set_color("#AECF96")
-memwidget:set_gradient_colors({ "#AECF96", "#88A175", "#FF5656" })
+mycpuwidget = awful.widget.graph()
+mycpuwidget:set_width(20)
+mycpuwidget:set_background_color("#222222")
+mycpuwidget:set_color("#77BB77")
 -- Register widget
-vicious.register(memwidget, vicious.widgets.mem, "$1", 13)
---}}}
+ vicious.register(mycpuwidget, vicious.widgets.cpu, "$1", 1)
 
--- Widgets that are aligned to the left
+ --add a battery widget, but only if we think the battery exists
+ battery = "BAT0"
+ mybattwidget = nil
+ local battery_file = io.open("/sys/class/power_supply/" .. battery)
+ if battery_file then
+     io.close(battery_file)
+     mybattwidget = widget({ type = "textbox"  })
+     mybattwidget.width = 32
+     mybattwidget.background_color = "#222222"
+     vicious.register(mybattwidget, vicious.widgets.bat,
+     "<span color='#1BDDE0' size='large'>$1</span><span color='#1BDDE0'>$2</span>", 61, battery)
+ end
+
+ mynetwidget_up = widget({ type = "textbox"  })
+ mynetwidget_up.width = 55
+ mynetwidget_down = widget({ type = "textbox"  })
+ mynetwidget_down.width = 55
+ if os.execute("ifconfig wlan0 >/dev/null 2>&1") == 0 then
+     vicious.register(mynetwidget_up, vicious.widgets.net,
+     "<span color='#BB7777'>↑${wlan0 up_kb}k</span>", 2)
+     vicious.register(mynetwidget_down, vicious.widgets.net,
+     "<span color='#77BB77'>↓${wlan0 down_kb}k</span>", 2)
+ elseif os.execute("ifconfig eth0 >/dev/null 2>&1") == 0 then
+     vicious.register(mynetwidget_up, vicious.widgets.net,
+     "<span color='#BB7777'>↑${eth0 up_kb}k</span>", 2)
+     vicious.register(mynetwidget_down, vicious.widgets.net,
+     "<span color='#77BB77'>↓${eth0 down_kb}k</span>", 2)
+ end
+
+--volume icon
+myvolumelabel = widget({ type = "textbox"  })
+myvolumelabel.text='<span color ="#18CAE6">Vol: </span>'
+vicious.register(myvolumelabel, vicious.widgets.volume,"$1$2",1, "Master")
+--[[
+   [myvolume=blingbling.volume.new()
+   [myvolume:set_height(18)
+   [myvolume:set_width(15)
+   [myvolume:set_v_margin(3)
+   [myvolume:update_master()
+   [myvolume:set_master_control()
+   [myvolume:set_bar(true)
+   [-- myvolume:set_show_text(true)
+   [myvolume:set_graph_color("#1793D100")
+   [myvolume:set_background_graph_color("#1793D1FF")
+   ]]
+
 
 -- {{{ Wibox
 -- Create a textclock widget
@@ -210,42 +249,32 @@ for s = 1, screen.count() do
                                           end, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox({ position = "top", screen = s })
+    mywibox[s] = awful.wibox({ position = "top", screen = s, height = 18 })
 
-    --widgets that are aligned the left
-    local left_layout = wibox.layout.fixed.horizontal()
-
-    --widgets that are aligned to the right
-    local right_layout = wibox.layout.fixed.horizontal()
-    if s == 1 then right_layout:add(wibox.widget.systray()) end
-    right_layout:add(alsawihget.bar)
-    right_layout:add(mytextclock)
-    right_layout:add(mylayoutbox[s])
-
-    --now bring it all together
-    local layout = wibox.layout.align.horizontal()
-    layout:set_left(left_layout)
-    layout:set_middle(mytasklist[s])
-    layout:set_right(right_layout)
-
-    mywibox[s]:set_widget(layout)
+    --local ffff = wibox.layout.fixed.horizontal()
 
     -- Add widgets to the wibox - order matters
-    --[[
-       [mywibox[s].widgets = {
-       [    {
-       [        mylauncher,
-       [        mytaglist[s],
-       [        mypromptbox[s],
-       [        layout = awful.widget.layout.horizontal.leftright
-       [    },
-       [    mylayoutbox[s],
-       [    mytextclock,
-       [    s == 1 and mysystray or nil,
-       [    mytasklist[s],
-       [    layout = awful.widget.layout.horizontal.rightleft
-       [}
-       ]]
+    mywibox[s].widgets = {
+        {
+            mylauncher,
+            mytaglist[s],
+            mypromptbox[s],
+            layout = awful.widget.layout.horizontal.leftright
+        },
+        mylayoutbox[s],
+        mytextclock,
+        s == 1 and mybattwidget or nil,
+        --[[
+           [s == 1 and mynetwidget_down or nil,
+           [s == 1 and mynetwidget_up or nil,
+           ]]
+           myvolumelabel,
+        s == 1 and mycpuwidget.widget or nil,
+        s == 1 and mysystray or nil,
+        mytasklist[s],
+        layout = awful.widget.layout.horizontal.rightleft
+    }
+
 end
 -- }}}
 
@@ -304,6 +333,14 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
 
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
+
+    --volume control
+    awful.key({ }, "XF86AudioRaiseVolume", function ()
+    awful.util.spawn("amixer set Master 9%+") end),
+    awful.key({ }, "XF86AudioLowerVolume", function ()
+    awful.util.spawn("amixer set Master 9%-") end),
+    awful.key({ }, "XF86AudioMute", function ()
+    awful.util.spawn("amixer sset Master toggle") end),
 
     -- Prompt
     awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
@@ -392,7 +429,8 @@ awful.rules.rules = {
     { rule = { },
       properties = { border_width = beautiful.border_width,
                      border_color = beautiful.border_normal,
-                     focus = true,
+                     --focus = true,
+                     focus = awful.client.focus.filter,
                      keys = clientkeys,
                      buttons = clientbuttons } },
     { rule = { class = "MPlayer" },
@@ -402,9 +440,9 @@ awful.rules.rules = {
     { rule = { class = "gimp" },
       properties = { floating = true } },
     -- Set Firefox to always map on tags number 2 of screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { tag = tags[1][2] } },
-}
+     { rule = { class = "Firefox" },
+       properties = { tag = tags[1][9] } },
+   },
 -- }}}
 
 -- {{{ Signals

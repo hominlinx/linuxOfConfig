@@ -1,3 +1,4 @@
+-- hominlinx1.0
 -- Standard awesome library
 require("awful")
 require("awful.autofocus")
@@ -9,6 +10,10 @@ require("naughty")
 
 -- Load Debian menu entries
 require("debian.menu")
+
+--widget and layout library
+local wibox = require("wibox")
+local vicious = require("vicious")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -49,12 +54,12 @@ editor_cmd = terminal .. " -e " .. editor
 -- If you do not like this or do not have such a key,
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
-modkey = "Mod4"
+modkey = "Mod1"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 layouts =
 {
-    awful.layout.suit.floating,
+    awful.layout.suit.max,
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
@@ -63,18 +68,25 @@ layouts =
     awful.layout.suit.fair.horizontal,
     awful.layout.suit.spiral,
     awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,
     awful.layout.suit.max.fullscreen,
+    awful.layout.suit.floating,
     awful.layout.suit.magnifier
 }
 -- }}}
 
+-- {{{ Wallpaper
+-- }}}
+
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
-tags = { }
+tags = {
+    names = { 1, 2, 3, 4, 5, 6, 7, "8.Chrome" , "9.Firefox"},
+    layout = {layouts[1], layouts[2], layouts[3], layouts[4], layouts[5], layouts[6], layouts[7], layouts[8], layouts[9] }
+
+}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
+    tags[s] = awful.tag(tags.names , s, tags.layout)
 end
 -- }}}
 
@@ -87,15 +99,44 @@ myawesomemenu = {
    { "quit", awesome.quit }
 }
 
+-- 創建一個favorite 子菜單
+myfavoriteapps = {
+    {"Firefox", "firefox"},
+    {"Software-Center", "gksudo software-center"}
+}
+
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
+                                    {"Favorite", myfavoriteapps},
                                     { "Debian", debian.menu.Debian_menu.Debian },
+                                    {"Home", "dolphin"},
+                                    {"Chrome", "google-chrome"},
                                     { "open terminal", terminal }
+
                                   }
                         })
 
 mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
                                      menu = mymainmenu })
 -- }}}
+
+
+---{{{ Widgets
+
+-- Initialize widget
+local memwidget = awful.widget.progressbar()
+-- Progressbar properties
+memwidget:set_width(8)
+memwidget:set_height(10)
+memwidget:set_vertical(true)
+memwidget:set_background_color("#494B4F")
+memwidget:set_border_color(nil)
+memwidget:set_color("#AECF96")
+memwidget:set_gradient_colors({ "#AECF96", "#88A175", "#FF5656" })
+-- Register widget
+vicious.register(memwidget, vicious.widgets.mem, "$1", 13)
+--}}}
+
+-- Widgets that are aligned to the left
 
 -- {{{ Wibox
 -- Create a textclock widget
@@ -170,20 +211,41 @@ for s = 1, screen.count() do
 
     -- Create the wibox
     mywibox[s] = awful.wibox({ position = "top", screen = s })
+
+    --widgets that are aligned the left
+    local left_layout = wibox.layout.fixed.horizontal()
+
+    --widgets that are aligned to the right
+    local right_layout = wibox.layout.fixed.horizontal()
+    if s == 1 then right_layout:add(wibox.widget.systray()) end
+    right_layout:add(alsawihget.bar)
+    right_layout:add(mytextclock)
+    right_layout:add(mylayoutbox[s])
+
+    --now bring it all together
+    local layout = wibox.layout.align.horizontal()
+    layout:set_left(left_layout)
+    layout:set_middle(mytasklist[s])
+    layout:set_right(right_layout)
+
+    mywibox[s]:set_widget(layout)
+
     -- Add widgets to the wibox - order matters
-    mywibox[s].widgets = {
-        {
-            mylauncher,
-            mytaglist[s],
-            mypromptbox[s],
-            layout = awful.widget.layout.horizontal.leftright
-        },
-        mylayoutbox[s],
-        mytextclock,
-        s == 1 and mysystray or nil,
-        mytasklist[s],
-        layout = awful.widget.layout.horizontal.rightleft
-    }
+    --[[
+       [mywibox[s].widgets = {
+       [    {
+       [        mylauncher,
+       [        mytaglist[s],
+       [        mypromptbox[s],
+       [        layout = awful.widget.layout.horizontal.leftright
+       [    },
+       [    mylayoutbox[s],
+       [    mytextclock,
+       [    s == 1 and mysystray or nil,
+       [    mytasklist[s],
+       [    layout = awful.widget.layout.horizontal.rightleft
+       [}
+       ]]
 end
 -- }}}
 
@@ -378,7 +440,8 @@ client.add_signal("unfocus", function(c) c.border_color = beautiful.border_norma
 
 autorun = true
 autorunApps = {
-    "dbus-lauch gnome-do",
+    "dbus-lauch",
+    "gnome-do",
     "synergy",
 }
 

@@ -161,7 +161,7 @@ exec --no-startup-id firefox
 exec --no-startup-id vim
 exec --no-startup-id "ssh-add ~/.ssh/github.com_rsa"
 exec --no-startup-id gnome-open 
-#exec --no-startup-id synergy &
+exec --no-startup-id synergy &
 exec --no-startup-id gnome-do &
 
 
@@ -205,7 +205,7 @@ bar {
 #mode dock
     font xft: 方正兰亭黑_GBK 11
     #tray_output primary
-    tray_output output
+    #tray_output output
     colors {
             background #000000
             statusline #ffffff
@@ -224,7 +224,7 @@ bar {
     #inactive_workspace #636363 #3f3f3f #dcdccc
     #urgent_workspace #dca3a3 #3f3f3f #dca3a3
     #}
-    workspace_buttons yes
+    #workspace_buttons yes
     #status_command $HOME/.config/i3/i3bar-conky
     status_command i3status
 }

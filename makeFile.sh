@@ -54,3 +54,13 @@ echo "Symlinking i3/config to $HOME/.i3/config"
 ln -s $CF_DIR/i3wm/i3wm-config ~/.i3/config
 ln -s $CF_DIR/i3wm/i3status.conf ~/.i3status.conf
 
+#for awesome
+AWESOME=$HOME/.config/awesome
+if [ ! -d $AWESOME ]; then
+    mkdir $AWESOME
+else
+    echo "${AWESOME} has done"
+fi
+echo "Symlinking awesome-config to ${AWESOME}"
+ln -s $CF_DIR/awesome-config/rc.lua ${AWESOME}/rc.lua
+

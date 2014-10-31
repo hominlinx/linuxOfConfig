@@ -80,7 +80,7 @@ layouts =
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
-    names = { 1, 2, 3, 4, 5, 6, 7, "8.Chrome" , "9.Firefox"},
+    names = { 1, 2, 3, 4, 5, 6, "7.mail", "8.Chrome" , "9.Firefox"},
     layout = {layouts[1], layouts[2], layouts[3], layouts[4], layouts[5], layouts[6], layouts[7], layouts[8], layouts[9] }
 
 }
@@ -308,8 +308,8 @@ globalkeys = awful.util.table.join(
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
-    awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end),
-    awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end),
+    awful.key({ modkey,  }, "j", function () awful.screen.focus_relative( 1) end),
+    awful.key({ modkey,  }, "k", function () awful.screen.focus_relative(-1) end),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
     awful.key({ modkey,           }, "Tab",
         function ()
@@ -443,6 +443,13 @@ awful.rules.rules = {
     -- Set Firefox to always map on tags number 2 of screen 1.
      { rule = { class = "Firefox" },
        properties = { tag = tags[1][9] } },
+
+     { rule = { class = "Thunderbird"  }, properties = { tag = tags[1][7]  }  },
+
+     { rule = { class = "google-chrome"  }, properties = { tag = tags[1][9]  }  },
+
+
+
    },
 -- }}}
 
@@ -477,11 +484,76 @@ client.add_signal("focus", function(c) c.border_color = beautiful.border_focus e
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
+--[[
+   [function run_once(cmd)
+   [    findme = cmd
+   [    firstspace = cmd:find(" ")
+   [    if firstspace then
+   [        findme = cmd:sub(0, firstspace - 1)
+   [    end
+   [     awful.util.spawn_with_shell("grep -u $USER -x " .. findme .. " > /dev/null
+   [|| (" .. cmd .. ")")
+   [end
+   ]]
+
+--[[
+   [run_once("dbus-lauch")
+   [run_once("gnome-do")
+   [run_once("synergy")
+   [run_once("firefox")
+   ]]
+
+function run_once(prg,arg_string,pname,screen)
+   if not pname then
+      if not arg_string then
+         pname = prg
+      else
+         pname = prg .. " " .. arg_string
+      end
+   end
+
+   if not arg_string then
+      awful.util.spawn_with_shell("pgrep -f -u $USER -x '" .. pname .. "' || (" .. prg .. ")",screen)
+   else
+      awful.util.spawn_with_shell("pgrep -f -u $USER -x '" .. pname .. "' || (" .. prg .. " " .. arg_string .. ")",screen)
+   end
+end
+
+-- Standard Autostarts
+run_once ("volumeicon")
+--run_once ("fcitx-autostart", "", "fcitx")
+--run_once ("sogou-qimpanel")
+--run_once ("unagi")
+run_once ("xscreensaver", "-no-splash")
+run_once ("gnome-terminal", "", "/usr/lib/gnome-terminal/gnome-terminal-server")
+run_once ("gnome-do")
+
+local autostartfile = os.getenv ("HOME") .. "/.config/awesome/.autostart"
+local file = io.open(autostartfile, "r")
+if not file then
+   naughty.notify ({ timeout = 3,
+                     title = "NoAutostart",
+                     text = "Open Autostart file: " .. autostartfile .. " failed" })
+else
+   for line in file:lines() do
+      if not string.match (line, "^%s*%#") then
+         local k = {}
+         for w in string.gmatch(line, "\"(.-)\"") do
+            k[#k + 1] = w
+         end
+         run_once (k[1], k[2], k[3])
+      end
+   end
+
+   file:close()
+end
+
 autorun = true
 autorunApps = {
     "dbus-lauch",
     "gnome-do",
     "synergy",
+    "thunderbird",
 }
 
 if autorun then

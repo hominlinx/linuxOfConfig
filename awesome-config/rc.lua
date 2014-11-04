@@ -289,8 +289,8 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
-    awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
+    awful.key({ modkey, "Shift"          }, "n",   awful.tag.viewprev       ),
+    awful.key({ modkey, "Shift"          }, "p",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 
     awful.key({ modkey,           }, "n",
@@ -341,7 +341,7 @@ globalkeys = awful.util.table.join(
     awful.key({ }, "XF86AudioLowerVolume", function ()
     awful.util.spawn("amixer set Master 9%-") end),
     awful.key({ }, "XF86AudioMute", function ()
-    awful.util.spawn("amixer sset Master toggle") end),
+    awful.util.spawn("amixer -D pulse set Master 1+ toggle") end),
 
     -- Prompt
     awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
@@ -363,13 +363,13 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     awful.key({ modkey, "Shift"   }, "r",      function (c) c:redraw()                       end),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
-    awful.key({ modkey, "Shift"   }, "n",
+    awful.key({ modkey, "Control"   }, "n",
         function (c)
             -- The client currently has the input focus, so it cannot be
             -- minimized, since minimized clients can't have the focus.
             c.minimized = true
         end),
-    awful.key({ modkey, "Shift"   }, "m",
+    awful.key({ modkey, "Control"   }, "m",
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
             c.maximized_vertical   = not c.maximized_vertical
@@ -441,12 +441,13 @@ awful.rules.rules = {
     { rule = { class = "gimp" },
       properties = { floating = true } },
     -- Set Firefox to always map on tags number 2 of screen 1.
+    -- using `xprop` to seeing WM_CLASS(STRING), that we can get class
      { rule = { class = "Firefox" },
        properties = { tag = tags[1][9] } },
+     { rule = { class = "Google-chrome-stable"  }, properties = { tag = tags[1][8]  }  },
 
      { rule = { class = "Thunderbird"  }, properties = { tag = tags[1][7]  }  },
 
-     { rule = { class = "google-chrome"  }, properties = { tag = tags[1][9]  }  },
 
 
 
@@ -520,40 +521,26 @@ function run_once(prg,arg_string,pname,screen)
 end
 
 -- Standard Autostarts
-run_once ("volumeicon")
---run_once ("fcitx-autostart", "", "fcitx")
---run_once ("sogou-qimpanel")
+--run_once ("volumeicon")
+run_once ("fcitx-autostart", "", "fcitx")
+run_once ("sogou-qimpanel")
 --run_once ("unagi")
-run_once ("xscreensaver", "-no-splash")
-run_once ("gnome-terminal", "", "/usr/lib/gnome-terminal/gnome-terminal-server")
-run_once ("gnome-do")
+--run_once ("xscreensaver", "-no-splash")
+--run_once ("gnome-terminal", "", "/usr/lib/gnome-terminal/gnome-terminal-server")
+--run_once ("~/opensource/shadowsocks/shadowsocks-gui-0.6.2-linux-x64/start.sh")
+--run_once ("gnome-do")
 
-local autostartfile = os.getenv ("HOME") .. "/.config/awesome/.autostart"
-local file = io.open(autostartfile, "r")
-if not file then
-   naughty.notify ({ timeout = 3,
-                     title = "NoAutostart",
-                     text = "Open Autostart file: " .. autostartfile .. " failed" })
-else
-   for line in file:lines() do
-      if not string.match (line, "^%s*%#") then
-         local k = {}
-         for w in string.gmatch(line, "\"(.-)\"") do
-            k[#k + 1] = w
-         end
-         run_once (k[1], k[2], k[3])
-      end
-   end
-
-   file:close()
-end
 
 autorun = true
 autorunApps = {
     "dbus-lauch",
     "gnome-do",
-    "synergy",
+    --"ibus-daemon",
+    --"gnome-session",
+    --"synergy",
     "thunderbird",
+    "ssh-add ~/.ssh/github.com_rsa",
+    "~/opensource/shadowsocks/shadowsocks-gui-0.6.2-linux-x64/start.sh"
 }
 
 if autorun then

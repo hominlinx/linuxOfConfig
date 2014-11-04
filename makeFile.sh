@@ -1,10 +1,11 @@
 #!/bin/bash
 cd .
 
+#vim dan
 #更新子模块到最新版本
-git submodule init
-git submodule update
-git submodule -q foreach git pull -q origin master
+#git submodule init
+#git submodule update
+#git submodule -q foreach git pull -q origin master
 
 #安装各种工具
 
@@ -16,6 +17,7 @@ git submodule -q foreach git pull -q origin master
 #---顺手工具
 #-----------------
 sudo apt-get install tmux
+sudo apt-get install awesome-extra
 
 
 #-----------------
@@ -30,7 +32,7 @@ if [ ! -d $BIN ]; then
 fi
 
 #for vim 自动配置
-sh -x $CF_DIR/vim/install.sh
+#sh -x $CF_DIR/vim/install.sh
 
 #for tmux
 echo "Installing tmux  colors to $BIN"

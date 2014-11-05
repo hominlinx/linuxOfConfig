@@ -521,37 +521,18 @@ end
 
 -- Standard Autostarts
 run_once ("volumeicon")
---run_once ("fcitx-autostart", "", "fcitx")
---run_once ("sogou-qimpanel")
+run_once ("fcitx-autostart", "", "fcitx")
+run_once ("sogou-qimpanel")
+run_once ("compton &")
 --run_once ("unagi")
-run_once ("xscreensaver", "-no-splash")
-run_once ("gnome-terminal", "", "/usr/lib/gnome-terminal/gnome-terminal-server")
+--run_once ("xscreensaver", "-no-splash")
+--run_once ("gnome-terminal", "", "/usr/lib/gnome-terminal/gnome-terminal-server")
 run_once ("gnome-do")
 
-local autostartfile = os.getenv ("HOME") .. "/.config/awesome/.autostart"
-local file = io.open(autostartfile, "r")
-if not file then
-   naughty.notify ({ timeout = 3,
-                     title = "NoAutostart",
-                     text = "Open Autostart file: " .. autostartfile .. " failed" })
-else
-   for line in file:lines() do
-      if not string.match (line, "^%s*%#") then
-         local k = {}
-         for w in string.gmatch(line, "\"(.-)\"") do
-            k[#k + 1] = w
-         end
-         run_once (k[1], k[2], k[3])
-      end
-   end
-
-   file:close()
-end
 
 autorun = true
 autorunApps = {
-    "dbus-lauch",
-    "gnome-do",
+    --"dbus-lauch gnome-do",
     "synergy",
     "thunderbird",
 }

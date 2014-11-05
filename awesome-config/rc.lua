@@ -289,8 +289,8 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
-    awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
+    awful.key({ modkey, "Shift"          }, "n",   awful.tag.viewprev       ),
+    awful.key({ modkey, "Shift"          }, "p",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 
     awful.key({ modkey,           }, "n",
@@ -341,7 +341,7 @@ globalkeys = awful.util.table.join(
     awful.key({ }, "XF86AudioLowerVolume", function ()
     awful.util.spawn("amixer set Master 9%-") end),
     awful.key({ }, "XF86AudioMute", function ()
-    awful.util.spawn("amixer sset Master toggle") end),
+    awful.util.spawn("amixer -D pulse set Master 1+ toggle") end),
 
     -- Prompt
     awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
@@ -363,13 +363,13 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     awful.key({ modkey, "Shift"   }, "r",      function (c) c:redraw()                       end),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
-    awful.key({ modkey, "Shift"   }, "n",
+    awful.key({ modkey, "Control"   }, "n",
         function (c)
             -- The client currently has the input focus, so it cannot be
             -- minimized, since minimized clients can't have the focus.
             c.minimized = true
         end),
-    awful.key({ modkey, "Shift"   }, "m",
+    awful.key({ modkey, "Control"   }, "m",
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
             c.maximized_vertical   = not c.maximized_vertical
@@ -441,12 +441,13 @@ awful.rules.rules = {
     { rule = { class = "gimp" },
       properties = { floating = true } },
     -- Set Firefox to always map on tags number 2 of screen 1.
+    -- using `xprop` to seeing WM_CLASS(STRING), that we can get class
      { rule = { class = "Firefox" },
        properties = { tag = tags[1][9] } },
+     { rule = { class = "Google-chrome-stable"  }, properties = { tag = tags[1][8]  }  },
 
      { rule = { class = "Thunderbird"  }, properties = { tag = tags[1][7]  }  },
 
-     { rule = { class = "google-chrome"  }, properties = { tag = tags[1][9]  }  },
 
 
 
@@ -532,9 +533,15 @@ run_once ("gnome-do")
 
 autorun = true
 autorunApps = {
-    --"dbus-lauch gnome-do",
     "synergy",
+    "dbus-lauch",
+    "gnome-do",
+    --"ibus-daemon",
+    --"gnome-session",
+    --"synergy",
     "thunderbird",
+    "ssh-add ~/.ssh/github.com_rsa",
+    "~/opensource/shadowsocks/shadowsocks-gui-0.6.2-linux-x64/start.sh"
 }
 
 if autorun then

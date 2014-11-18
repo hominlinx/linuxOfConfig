@@ -80,7 +80,7 @@ layouts =
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
-    names = { 1, 2, 3, 4, 5, 6, "7.mail", "8.Chrome" , "9.Firefox"},
+    names = { 1, 2, 3, 4, 5, "6.android", "7.mail", "8.Chrome" , "9.Firefox"},
     layout = {layouts[1], layouts[2], layouts[3], layouts[4], layouts[5], layouts[6], layouts[7], layouts[8], layouts[9] }
 
 }
@@ -291,7 +291,8 @@ root.buttons(awful.util.table.join(
 globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"          }, "n",   awful.tag.viewprev       ),
     awful.key({ modkey, "Shift"          }, "p",  awful.tag.viewnext       ),
-    awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
+    awful.key({ modkey,           }, "u", awful.tag.history.restore),
+    --awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 
     awful.key({ modkey,           }, "n",
         function () 
@@ -521,27 +522,30 @@ function run_once(prg,arg_string,pname,screen)
 end
 
 -- Standard Autostarts
+run_once("dbus-launch")
 run_once ("volumeicon")
 run_once ("fcitx-autostart", "", "fcitx")
 run_once ("sogou-qimpanel")
 run_once ("compton &")
+run_once ("nm-applet --sm-disable ")
 --run_once ("unagi")
 --run_once ("xscreensaver", "-no-splash")
 --run_once ("gnome-terminal", "", "/usr/lib/gnome-terminal/gnome-terminal-server")
-run_once ("gnome-do")
+--run_once ("gnome-do")
+--run_once ("dbus-launch --exit-with-session gnome-session")
 
 
 autorun = true
 autorunApps = {
     "synergy",
-    "dbus-lauch",
+    --"dbus-lauch",
     "gnome-do",
     --"ibus-daemon",
     --"gnome-session",
     --"synergy",
     "thunderbird",
     "ssh-add ~/.ssh/github.com_rsa",
-    "~/opensource/shadowsocks/shadowsocks-gui-0.6.2-linux-x64/start.sh"
+    "~/opensource/shadowsocks/shadowsocks-gui-0.6.4-linux-x64/start.sh"
 }
 
 if autorun then

@@ -35,12 +35,18 @@ fi
 #sh -x $CF_DIR/vim/install.sh
 
 #for tmux
-echo "Installing tmux  colors to $BIN"
-ln -s $CF_DIR/tmux/.tmuxcolors.conf ~/.tmuxcolors.conf
+TMUXCONF="$CF_DIR/tmux/tmux.conf"
+if [ ! -f "$TMUXCONF" ]; then
 
-echo "Symlinking .tmux.conf to $HOME/.tmux.conf"
-ln -s $CF_DIR/tmux/tmux.conf ~/.tmux.conf
-echo "alias tmux='tmux -2'" >> ~/.bashrc
+    echo "Installing tmux  colors to $BIN"
+    ln -s $CF_DIR/tmux/.tmuxcolors.conf ~/.tmuxcolors.conf
+
+    echo "Symlinking .tmux.conf to $HOME/.tmux.conf"
+    ln -s $CF_DIR/tmux/tmux.conf ~/.tmux.conf
+    echo "alias tmux='tmux -2'" >> ~/.bashrc
+else
+    echo "tmux conf has done!!"
+fi
 #source .bash_profile
 
 #for vimperator
@@ -66,3 +72,5 @@ fi
 echo "Symlinking awesome-config to ${AWESOME}"
 ln -s $CF_DIR/awesome-config/rc.lua ${AWESOME}/rc.lua
 
+# ckermit , a com like minicom
+ln -s $CF_DIR/kermrc ~/.kermrc

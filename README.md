@@ -35,6 +35,9 @@ ssh-keygen -t rsa -C "monkeyyuan635@gmail.com" -f ~/.ssh/github.com_rsa
 
 > 1. [vim](https://github.com/hominlinx/vim)
 > 2.  tmux
+> 3. shadowsocks
+> 4. vimperator
+> 5. firefox
 
 ####QA
 

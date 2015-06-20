@@ -54,13 +54,13 @@ echo "Symlinking vimperator to $HOME/.vimperatorrc"
 ln -s $CF_DIR/vimperatorrc ~/.vimperatorrc
 
 #for i3-wm
-I3WM=$HOME/.i3
-if [ ! -d  $I3WM ]; then
-    mkdir $I3WM
-fi
-echo "Symlinking i3/config to $HOME/.i3/config"
-ln -s $CF_DIR/i3wm/i3wm-config ~/.i3/config
-ln -s $CF_DIR/i3wm/i3status.conf ~/.i3status.conf
+#I3WM=$HOME/.i3
+#if [ ! -d  $I3WM ]; then
+#    mkdir $I3WM
+#fi
+#echo "Symlinking i3/config to $HOME/.i3/config"
+#ln -s $CF_DIR/i3wm/i3wm-config ~/.i3/config
+#ln -s $CF_DIR/i3wm/i3status.conf ~/.i3status.conf
 
 #for awesome
 AWESOME=$HOME/.config/awesome
@@ -74,3 +74,15 @@ ln -s $CF_DIR/awesome-config/rc.lua ${AWESOME}/rc.lua
 
 # ckermit , a com like minicom
 ln -s $CF_DIR/kermrc ~/.kermrc
+
+#for shadowsocks
+
+sudo add-apt-repository ppa:hzwhuang/ss-qt5
+sudo apt-get update
+sudo apt-get install shadowsocks-qt5
+
+#for sougou-pinyin
+
+#for firefox adobe
+
+

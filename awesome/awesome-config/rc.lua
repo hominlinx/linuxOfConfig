@@ -42,7 +42,9 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
+-- 这个是默认的, 其他的在~/.config/awesome/awesome-theme,现在感觉不好用
 beautiful.init("/usr/share/awesome/themes/default/theme.lua")
+--beautiful.init("~/.config/awesome/awesome-themes/blue/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "x-terminal-emulator"
@@ -54,6 +56,7 @@ editor_cmd = terminal .. " -e " .. editor
 -- If you do not like this or do not have such a key,
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
+-- Mod1 is Alt
 modkey = "Mod1"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
@@ -64,13 +67,6 @@ layouts =
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
-    awful.layout.suit.fair,
-    awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max.fullscreen,
-    awful.layout.suit.floating,
-    awful.layout.suit.magnifier
 }
 -- }}}
 
@@ -81,7 +77,7 @@ layouts =
 -- Define a tag table which hold all screen tags.
 tags = {
     names = { 1, 2, 3, 4, 5, "6.android", "7.mail", "8.Chrome" , "9.Firefox"},
-    layout = {layouts[1], layouts[2], layouts[3], layouts[4], layouts[5], layouts[6], layouts[7], layouts[8], layouts[9] }
+    layout = {layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1] }
 
 }
 for s = 1, screen.count() do
@@ -289,13 +285,13 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-    awful.key({ modkey, "Shift"          }, "n",   awful.tag.viewprev       ),
-    awful.key({ modkey, "Shift"          }, "p",  awful.tag.viewnext       ),
-    awful.key({ modkey,           }, "u", awful.tag.history.restore),
+    awful.key({ modkey, "Shift"          }, "n",   awful.tag.viewprev       ), --前一个面板
+    awful.key({ modkey, "Shift"          }, "p",  awful.tag.viewnext       ), --后一个面板
+    awful.key({ modkey,           }, "u", awful.tag.history.restore), --上一个面板
     --awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 
     awful.key({ modkey,           }, "n",
-        function () 
+        function ()
             awful.client.focus.byidx( 1)
             if client.focus then client.focus:raise() end
         end),
@@ -525,7 +521,7 @@ end
 run_once("dbus-launch")
 run_once ("volumeicon")
 run_once ("fcitx-autostart", "", "fcitx")
-run_once ("sogou-qimpanel")
+--run_once ("sogou-qimpanel")
 run_once ("compton &")
 run_once ("nm-applet --sm-disable ")
 --run_once ("unagi")
@@ -535,14 +531,15 @@ run_once ("nm-applet --sm-disable ")
 --run_once ("dbus-launch --exit-with-session gnome-session")
 
 
+--自启动程序
 autorun = true
 autorunApps = {
     "synergy",
     --"dbus-lauch",
-    "gnome-do",
     --"ibus-daemon",
     --"gnome-session",
     --"synergy",
+    "kupfer",
     "thunderbird",
     "ssh-add ~/.ssh/github.com_rsa",
     "~/opensource/shadowsocks/shadowsocks-gui-0.6.4-linux-x64/start.sh"

@@ -70,16 +70,17 @@ else
     echo "${AWESOME} has done"
 fi
 echo "Symlinking awesome-config to ${AWESOME}"
-ln -s $CF_DIR/awesome-config/rc.lua ${AWESOME}/rc.lua
+ln -s $CF_DIR/awesome/awesome-config/rc.lua ${AWESOME}/rc.lua
+ln -s $CF_DIR/awesome/awesome-themes ${AWESOME}/
 
 # ckermit , a com like minicom
 ln -s $CF_DIR/kermrc ~/.kermrc
 
 #for shadowsocks
 
-sudo add-apt-repository ppa:hzwhuang/ss-qt5
-sudo apt-get update
-sudo apt-get install shadowsocks-qt5
+#sudo add-apt-repository ppa:hzwhuang/ss-qt5
+#sudo apt-get update
+#sudo apt-get install shadowsocks-qt5
 
 #for sougou-pinyin
 

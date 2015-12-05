@@ -23,11 +23,24 @@ ssh-keygen -t rsa -C "monkeyyuan635@gmail.com" -f ~/.ssh/github.com_rsa
 
 *在github里面添加生成的ssh密钥*
 
-生成的pub密钥添加到github中。
+生成的pub密钥添加到github中。 密钥的权限是0600
 
 *测试密钥文件*
 
 `ssh -T git@github.com`
+或者：`ssh -vT git@github.com` 这个可以看到更详细的信息
+
+注意： 有时候`github.com_rsa` 可能不行，需要在`~/.ssh/config`文件里加入：
+
+```
+host github
+user hoominlinx
+hostname github.com
+port 22
+identityfile ~/.ssh/github.com_rsa
+
+```
+这样就可以了
 
 --------------
 

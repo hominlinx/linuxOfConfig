@@ -76,7 +76,7 @@ layouts =
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
-    names = { 1, 2, 3, 4, 5, "6.android", "7.mail", "8.Chrome" , "9.Firefox"},
+    names = { 1, 2, 3, 4, 5, "6.sublime", "7.mail", "8.Chrome" , "9.Firefox"},
     layout = {layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1] }
 
 }
@@ -421,6 +421,14 @@ clientbuttons = awful.util.table.join(
 root.keys(globalkeys)
 -- }}}
 
+--窗口规则设置
+--上面的class是用软件"xprop"看的，运行xprop，用鼠标点要看的窗口，会出来一大堆东西。 从里面找到
+--WM_CLASS(STRING) = "sublime_text", "Sublime_text",字样，其中后面写在后面的那个就是我们要得东西
+--而properties则是一个表，其中设定了许多属性，常见的属性有:tag：放在哪个tag，第一个[]里的是屏幕，如果单屏写1就好，第二个[]才是tag号
+--border_width：窗口边界宽度，默认的要看主题
+--floating：是否浮动，可选值有 true 和 false
+--sticky：是否固定在所有tag上，值同floating
+--ontop：是否刚出来就放在最上边，值同上focusable：是否可以被聚焦选中，值还同上
 -- {{{ Rules
 awful.rules.rules = {
     -- All clients will match this rule.
@@ -444,7 +452,7 @@ awful.rules.rules = {
      { rule = { class = "Google-chrome-stable"  }, properties = { tag = tags[1][8]  }  },
 
      { rule = { class = "Thunderbird"  }, properties = { tag = tags[1][7]  }  },
-
+     { rule = { class = "Sublime_text"  }, properties = { tag = tags[1][6]  }  },
 
 
 

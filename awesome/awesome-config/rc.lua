@@ -67,6 +67,13 @@ layouts =
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
+    awful.layout.suit.fair,
+    awful.layout.suit.fair.horizontal,
+    awful.layout.suit.spiral,
+    awful.layout.suit.spiral.dwindle,
+    awful.layout.suit.max.fullscreen,
+    awful.layout.suit.floating,
+    awful.layout.suit.magnifier
 }
 -- }}}
 
@@ -76,7 +83,7 @@ layouts =
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
-    names = { 1, 2, 3, 4, 5, "6.sublime", "7.mail", "8.Chrome" , "9.Firefox"},
+    names = { 1, 2, 3, 4, 5, "6.sublime", "7.mail", "8.WizNote" , "9.Firefox"},
     layout = {layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1] }
 
 }
@@ -549,8 +556,10 @@ autorunApps = {
     --"synergy",
     "kupfer",
     "thunderbird",
+    "lantern",
     "ssh-add ~/.ssh/github.com_rsa",
-    "~/opensource/shadowsocks/shadowsocks-gui-0.6.4-linux-x64/start.sh"
+    "ssh-add ~/.ssh/id_rsa",
+    --"~/opensource/shadowsocks/shadowsocks-gui-0.6.4-linux-x64/start.sh"
 }
 
 if autorun then

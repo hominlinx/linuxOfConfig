@@ -1,27 +1,17 @@
 [global_config]
-  title_inactive_fg_color = "#e5c200"
-  tab_position = hidden
 [keybindings]
 [profiles]
   [[default]]
-    scrollbar_position = hidden
     use_system_font = False
-    background_darkness = 0.99
+    login_shell = True
+    background_darkness = 0.96
     background_type = transparent
     background_image = None
-    foreground_color = "#ffffff"
+    cursor_color = "#3036ec"
+    foreground_color = "#00ff00"
     show_titlebar = False
+    custom_command = tmux
     font = DejaVu Sans Mono 11
-    scrollback_infinite = True
-  [[molokai]]
-    scrollbar_position = hidden
-    palette = "#181915:#7a0137:#498702:#c5bb63:#3465a4:#75507b:#4194b0:#d3d7cf:#45473c:#e00265:#6dca04:#e6db74:#1d71ca:#af5fff:#5cd1f8:#ffffff"
-    background_image = None
-    use_system_font = False
-    cursor_color = "#c20257"
-    foreground_color = "#ffffff"
-    show_titlebar = False
-    font = DejaVu Sans Mono 9
     background_color = "#1c1c1c"
     scrollback_infinite = True
 [layouts]

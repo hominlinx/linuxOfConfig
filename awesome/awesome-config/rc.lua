@@ -83,7 +83,7 @@ layouts =
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
-    names = { 1, 2, 3, 4, 5, "6.sublime", "7.mail", "8.WizNote" , "9.Firefox"},
+    names = { "hello", "yuanguang", 3, 4, 5, 6, 7, 8, 9},
     layout = {layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1] }
 
 }
@@ -253,7 +253,7 @@ for s = 1, screen.count() do
                                           end, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox({ position = "top", screen = s, height = 18 })
+    mywibox[s] = awful.wibox({ position = "top", screen = s, height = 26 })
 
     --local ffff = wibox.layout.fixed.horizontal()
 
@@ -455,11 +455,11 @@ awful.rules.rules = {
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- using `xprop` to seeing WM_CLASS(STRING), that we can get class
      { rule = { class = "Firefox" },
-       properties = { tag = tags[1][9] } },
-     { rule = { class = "Google-chrome-stable"  }, properties = { tag = tags[1][8]  }  },
+       properties = { tag = tags[1][2] } },
+     { rule = { class = "Google-chrome-stable"  }, properties = { tag = tags[1][2]  }  },
 
-     { rule = { class = "Thunderbird"  }, properties = { tag = tags[1][7]  }  },
-     { rule = { class = "Sublime_text"  }, properties = { tag = tags[1][6]  }  },
+     { rule = { class = "Thunderbird"  }, properties = { tag = tags[1][2]  }  },
+     { rule = { class = "Sublime_text"  }, properties = { tag = tags[1][2]  }  },
 
 
 

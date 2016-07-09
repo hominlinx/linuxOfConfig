@@ -1,5 +1,5 @@
 127.0.0.1	localhost
-127.0.1.1	monkey
+127.0.1.1   ubuntu
 
 # The following lines are desirable for IPv6 capable hosts
 ::1     ip6-localhost ip6-loopback
@@ -8,7 +8,7 @@ ff00::0 ip6-mcastprefix
 ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 
-## google hosts 
+## google hosts
 
 # Copyright (c) 2014-2016, racaljk.
 # https://github.com/racaljk/hosts

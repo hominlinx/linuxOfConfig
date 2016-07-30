@@ -42,6 +42,13 @@ identityfile ~/.ssh/github.com_rsa
 ```
 这样就可以了
 
+
+--------------
+
+#### zsh
+zsh 中包含了一个theme， 自己在`af-magic` 上修改的。
+将这个文件cp到`.oh-my-zsh/themes/`下面即可。
+
 --------------
 
 ######配置文件可以一键部署，现在包含一下几个子模块

@@ -16,8 +16,6 @@ cd .
 #-----------------
 #---顺手工具
 #-----------------
-sudo apt-get install tmux
-sudo apt-get install awesome-extra
 
 
 #-----------------

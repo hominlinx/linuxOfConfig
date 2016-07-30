@@ -2,9 +2,8 @@ linuxOfConfig
 =============
 
 ####my config on linux(such as vim /tmux etc)
+####在mac中使用
 
-####由于使用多个unbuntu系统（公司虚拟机/自己本子/落云），所以建立了这个仓库。
-####该仓库包含了各种配置文件，并且继续加入
 
 ######首先配置github
 
@@ -48,6 +47,9 @@ identityfile ~/.ssh/github.com_rsa
 #### zsh
 zsh 中包含了一个theme， 自己在`af-magic` 上修改的。
 将这个文件cp到`.oh-my-zsh/themes/`下面即可。
+
+####iTerm2
+
 
 --------------
 

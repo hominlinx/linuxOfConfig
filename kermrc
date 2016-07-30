@@ -19,3 +19,6 @@ set rec pack 1000
 set send pack 1000
 
 set window 5
+
+set session-log TIMESTAMPED-TEXT # 配置log重定向格式 
+log session

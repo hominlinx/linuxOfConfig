@@ -35,7 +35,8 @@ fi
 #sh -x $CF_DIR/vim/install.sh
 
 #for tmux
-TMUXCONF="$CF_DIR/tmux/tmux.conf"
+#TMUXCONF="$CF_DIR/tmux/tmux.conf"
+TMUXCONF="~/.tmux.conf"
 if [ ! -f "$TMUXCONF" ]; then
 
     echo "Installing tmux  colors to $BIN"

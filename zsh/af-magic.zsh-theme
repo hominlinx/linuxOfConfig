@@ -7,11 +7,13 @@ if [ $UID -eq 0 ]; then NCOLOR="red"; else NCOLOR="blue"; fi
 local return_code="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
 
 eval my_purple='$FG[098]'
-eval my_yellow='$FG[228]'
+eval my_yellow='$FG_BOLD[228]'
+eval my_yellow_bold='$fg_bold[yellow]'
+eval my_green_bold='$fg_bold[green]'
 
 # primary prompt
 PROMPT='$FG[237]------------------------------------------------------------%{$reset_color%}
-$my_yellow Monkey:%~\
+$my_green_bold Monkey:%~\
 $(git_prompt_info) \
 $FG[105]%(!.#.»)%{$reset_color%} '
 PROMPT2='%{$fg[red]%}\ %{$reset_color%}'
